@@ -30,7 +30,8 @@ RUN \
     && curl -J -L -o /tmp/webtool.zip \
         "https://github.com/ukdtom/WebTools.bundle/releases/download/3.0.0/WebTools.bundle.zip" \
     && unzip -d /opt  /tmp/webtool.zip \
-    && apt-get -y upgrade cifs-utils \
+    \
+    && apt-get -y cifs-utils \
     \
     && apt-get -y remove --purge unzip \
     && apt-get -y autoremove \
