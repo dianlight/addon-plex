@@ -13,7 +13,6 @@ The installation of this add-on is pretty straightforward and not different in
 comparison to installing any other Home Assistant add-on.
 
 1. Search for the “Plex Media Server” add-on in the lbouriez add-on store
-   and install it.
 1. Surf to <https://www.plex.tv/claim> and get your claim token.
 1. Update the add-on config with the claim code you've got in the previous step.
 1. Save the add-on configuration.
@@ -35,9 +34,9 @@ log_level: info
 claim_code: claim-cAMrqFrenckFU4x445Tn
 webtools: true
 networkdisks:
- - //serverip/share
+  - //serverip/share
 cifsusername: hassio
-cifspassword: password 
+cifspassword: password
 cifsversion: "3.0"
 ```
 
@@ -90,22 +89,22 @@ The plugin also allows you to add and install custom plugins.
 
 Set this variable to `true` to enable it.
 
-### Option: `networkdisks`  <span style="color:red">PROTECTION MODE NEED TO DISABLED TO WORK</span>
+### Option: `networkdisks` <span style="color:red">PROTECTION MODE NEED TO DISABLED TO WORK</span>
 
 Is the list of networks share to mount at boot. The mounted driver is on `/<SERVER>/<SHARE>` directory.
 
-#### Option: `cifsusername` 
+#### Option: `cifsusername`
 
 The username to use to mount the network shares
 
-#### Option: `cifspassword` 
+#### Option: `cifspassword`
 
 The password used to mount the networks shares
 
 #### Option: `cifsversion`
 
 The version of cifs to use. Default `3.0`.
-Valid values are `3.0`, `2.1`, `2.0`, `1.0`. 
+Valid values are `3.0`, `2.1`, `2.0`, `1.0`.
 
 ## Solving connection issues with Plex
 
@@ -167,10 +166,10 @@ Plex Media Server.
   useful, don't expect too much. In general, the Pi lacks the processing power
   and is probably not able to stream your media; therefore it is not
   recommended using this add-on on such a device.
-- ~~This add-on cannot add/mount any additional USB or other devices for you.
+- This add-on cannot add/mount any additional USB or other devices for you.
   This is a Hass.io limitation. In case you'd like to use extra devices,
   you'll have to modify the host system yourself and is not supported by the
-  Hass.io or Community add-ons team.~~
+  Hass.io or Community add-ons team.
 - A Plex Pass gives you exclusive access to new features, which are
   available through a Beta version channel of the media server. At this
   time, running this "Beta" version, is not supported by this add-on.
@@ -194,14 +193,12 @@ Got questions?
 
 You have several options to get them answered:
 
-<!--
 - The [Home Assistant Community Add-ons Discord chat server][discord] for add-on
   support and feature requests.
 - The [Home Assistant Discord chat server][discord-ha] for general Home
   Assistant discussions and questions.
 - The Home Assistant [Community Forum][forum].
 - Join the [Reddit subreddit][reddit] in [/r/homeassistant][reddit]
--->
 
 You could also [open an issue here][issue] GitHub.
 
@@ -236,17 +233,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-[contributors]: https://github.com/dianlight/addon-plex/graphs/contributors
-<!--
+[contributors]: https://github.com/hassio-addons/addon-plex/graphs/contributors
 [discord-ha]: https://discord.gg/c5DvZ4e
 [discord]: https://discord.me/hassioaddons
 [forum]: https://community.home-assistant.io/t/home-assistant-community-add-on-plex-media-server/54383?u=frenck
 [frenck]: https://github.com/frenck
--->
-[issue]: https://github.com/dianlight/addon-plex/issues
-<!--
+[issue]: https://github.com/hassio-addons/addon-plex/issues
 [reddit]: https://reddit.com/r/homeassistant
--->
-[releases]: https://github.com/dianlight/addon-plex/releases
+[releases]: https://github.com/hassio-addons/addon-plex/releases
 [semver]: http://semver.org/spec/v2.0.0.htm
 [webtools]: https://github.com/ukdtom/WebTools.bundle/wiki
