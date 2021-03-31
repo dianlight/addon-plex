@@ -15,6 +15,7 @@ RUN \
         uuid-runtime=2.31.1-0.4ubuntu3.7 \
         unrar=1:5.5.8-1 \
         unzip=6.0-21ubuntu1 \
+        cifs-utils=2:6.8-1 \
     \
     && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="aarch64"; fi \
     && if [ "${BUILD_ARCH}" = "amd64" ]; then ARCH="x86_64"; fi \
@@ -30,7 +31,6 @@ RUN \
     && curl -J -L -o /tmp/webtool.zip \
         "https://github.com/ukdtom/WebTools.bundle/releases/download/3.0.0/WebTools.bundle.zip" \
     && unzip -d /opt  /tmp/webtool.zip \
-    && apt-get -y upgrade cifs-utils \
     \
     && apt-get -y remove --purge unzip \
     && apt-get -y autoremove \

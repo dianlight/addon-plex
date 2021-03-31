@@ -11,6 +11,7 @@ on:
     branches: [main]
     types:
       - completed
+  workflow_dispatch:
 
 jobs:
   information:
@@ -103,22 +104,22 @@ jobs:
         uses: docker/login-action@v1.8.0
         with:
           registry: ghcr.io
-          username: ${{ secrets.GHCR_USERNAME }}
-          password: ${{ secrets.GHCR_PASSWORD }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: 🚀 Build and push
         uses: docker/build-push-action@v2.3.0
         with:
           push: true
           # yamllint disable rule:line-length
           tags: |
-            ghcr.io/hassio-addons/${{ needs.information.outputs.slug }}/${{ matrix.architecture }}:${{ needs.information.outputs.environment }}
-            ghcr.io/hassio-addons/${{ needs.information.outputs.slug }}/${{ matrix.architecture }}:${{ needs.information.outputs.version }}
+            ghcr.io/${{ github.repository }}/${{ matrix.architecture }}:${{ needs.information.outputs.environment }}
+            ghcr.io/${{ github.repository }}/${{ matrix.architecture }}:${{ needs.information.outputs.version }}
           # yamllint enable rule:line-length
           context: ${{ needs.information.outputs.target }}
           file: ${{ needs.information.outputs.target }}/Dockerfile
           cache-from: |
             type=local,src=/tmp/.docker-cache
-            ghcr.io/hassio-addons/${{ needs.information.outputs.slug }}/${{ matrix.architecture }}:edge
+            ghcr.io/${{ github.repository }}/${{ matrix.architecture }}:edge
           cache-to: type=local,mode=max,dest=/tmp/.docker-cache
           platforms: ${{ steps.flags.outputs.platform }}
           build-args: |
@@ -133,7 +134,9 @@ jobs:
 
   publish-edge:
     name: 📢 Publish to edge repository
-    if: needs.information.outputs.environment == 'edge'
+    if: |
+      github.repository_owner == 'hassio-addons' &&
+      needs.information.outputs.environment == 'edge'
     needs:
       - information
       - deploy
@@ -158,8 +161,9 @@ jobs:
   publish-beta:
     name: 📢 Publish to beta repository
     if: |
-      needs.information.outputs.environment == 'beta' ||
-      needs.information.outputs.environment == 'stable'
+      github.repository_owner == 'hassio-addons' &&
+      (needs.information.outputs.environment == 'beta' ||
+      needs.information.outputs.environment == 'stable')
     needs:
       - information
       - deploy
@@ -183,7 +187,9 @@ jobs:
 
   publish-stable:
     name: 📢 Publish to stable repository
-    if: needs.information.outputs.environment == 'stable'
+    if: |
+      github.repository_owner == 'hassio-addons' &&
+      needs.information.outputs.environment == 'stable'
     needs:
       - information
       - deploy

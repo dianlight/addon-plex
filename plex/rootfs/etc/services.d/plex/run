@@ -28,7 +28,7 @@ if bashio::config.has_value 'networkdisks'; then
             mount -t cifs -o username=$CIFS_USERNAME,password=$CIFS_PASSWORD$CIFS_VERSION_ARG $disk /$disk && \
             bashio::log.info "Success!"   
     done || \
-    bashio::log.warning "Protection mode is ON. Unable to mount external drivers!"
+    bashio::log.warning "Unable to mount external drives probably due to an incorrect login/password!"
 fi
 
 # Run the Plex Media Server
