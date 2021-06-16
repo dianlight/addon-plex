@@ -1,5 +1,4 @@
-ARG BUILD_FROM
-#=hassioaddons/ubuntu-base:5.2.2
+ARG BUILD_FROM=ghcr.io/hassio-addons/ubuntu-base/amd64:6.2.0
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -7,8 +6,8 @@ FROM ${BUILD_FROM}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Setup base system
-ARG BUILD_ARCH
-#=amd64
+ARG BUILD_ARCH=amd64
+ARG RELEASE=1.23.2.4656-85f0adf5b
 RUN \
     apt-get update \
     \
@@ -17,6 +16,7 @@ RUN \
         uuid-runtime=2.31.1-0.4ubuntu3.7 \
         unrar=1:5.5.8-1 \
         unzip=6.0-21ubuntu1 \
+        cifs-utils=2:6.8-1 \
     \
     && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="aarch64"; fi \
     && if [ "${BUILD_ARCH}" = "amd64" ]; then ARCH="x86_64"; fi \
@@ -24,7 +24,7 @@ RUN \
     && if [ "${BUILD_ARCH}" = "i386" ]; then ARCH="x86"; fi \
     \
     && curl -J -L -o /tmp/plexmediaserver.tgz \
-        "https://downloads.plex.tv/plex-media-server-new/1.21.3.4046-3c1c83ba4/synology/PlexMediaServer-1.21.3.4046-3c1c83ba4-${ARCH}.spk" \
+        "https://downloads.plex.tv/plex-media-server-new/${RELEASE}/synology/PlexMediaServer-${RELEASE}-${ARCH}_DSM6.spk" \
     \
     && mkdir /usr/lib/plexmediaserver \
     && tar -xOf /tmp/plexmediaserver.tgz package.tgz | tar -xzf - -C /usr/lib/plexmediaserver/ \
@@ -32,7 +32,6 @@ RUN \
     && curl -J -L -o /tmp/webtool.zip \
         "https://github.com/ukdtom/WebTools.bundle/releases/download/3.0.0/WebTools.bundle.zip" \
     && unzip -d /opt  /tmp/webtool.zip \
-    && apt-get -y upgrade cifs-utils \
     \
     && apt-get -y remove --purge unzip \
     && apt-get -y autoremove \
@@ -47,26 +46,30 @@ RUN \
 COPY rootfs /
 
 # Build arguments
+ARG BUILD_ARCH
 ARG BUILD_DATE
+ARG BUILD_DESCRIPTION
+ARG BUILD_NAME
 ARG BUILD_REF
+ARG BUILD_REPOSITORY
 ARG BUILD_VERSION
 
 # Labels
 LABEL \
-    io.hass.name="Plex Media Server" \
-    io.hass.description="Recorded media, live TV, online news, and podcasts ready to stream" \
+    io.hass.name="${BUILD_NAME}" \
+    io.hass.description="${BUILD_DESCRIPTION}" \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
     io.hass.version=${BUILD_VERSION} \
     maintainer="Franck Nijhof <frenck@addons.community>" \
-    org.opencontainers.image.title="Plex Media Server" \
-    org.opencontainers.image.description="Recorded media, live TV, online news, and podcasts ready to stream" \
+    org.opencontainers.image.title="${BUILD_NAME}" \
+    org.opencontainers.image.description="${BUILD_DESCRIPTION}" \
     org.opencontainers.image.vendor="Home Assistant Community Add-ons" \
     org.opencontainers.image.authors="Franck Nijhof <frenck@addons.community>" \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.url="https://addons.community" \
-    org.opencontainers.image.source="https://github.com/hassio-addons/addon-plex" \
-    org.opencontainers.image.documentation="https://github.com/hassio-addons/addon-plex/blob/master/README.md" \
+    org.opencontainers.image.source="https://github.com/${BUILD_REPOSITORY}" \
+    org.opencontainers.image.documentation="https://github.com/${BUILD_REPOSITORY}/blob/main/README.md" \
     org.opencontainers.image.created=${BUILD_DATE} \
     org.opencontainers.image.revision=${BUILD_REF} \
     org.opencontainers.image.version=${BUILD_VERSION}

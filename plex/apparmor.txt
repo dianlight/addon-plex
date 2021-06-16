@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile 1a32f091-plex flags=(attach_disconnected,mediate_deleted) {
+profile f75307bb-plex flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
   
   capability,
